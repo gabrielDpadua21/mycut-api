@@ -26,3 +26,7 @@ MyCut
 
 ## Architecture
 ![](docs/architecture.jpg)
+
+## Class Diagram
+
+![](docs/class-diagram.png)
