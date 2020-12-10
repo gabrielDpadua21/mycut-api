@@ -37,22 +37,6 @@ public class UserResource {
         return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping(value = "/login")
-    public ResponseEntity<User> login(@RequestBody Login obj) {
-        User user = services.findByEmail(obj.getEmail());
-        if(user.getPassword().contentEquals(obj.getPassword())) {
-            user.setPassword("");
-            return ResponseEntity.ok().body(user);
-        }
-
-        user.setPassword("");
-        user.setPhone("");
-        user.setName("error");
-        user.setEmail("error");
-
-        return ResponseEntity.ok().body(user);
-    }
-
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User obj) {
         obj = services.insert(obj);

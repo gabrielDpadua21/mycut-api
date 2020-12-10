@@ -1,44 +1,32 @@
 package com.facensmycut.mycut.services;
 
+
 import com.facensmycut.mycut.entities.User;
 import com.facensmycut.mycut.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServices {
+public class LoginService {
 
     @Autowired
     private UserRepository repository;
 
-    public List<User> findAll() {
-        return repository.findAll();
-    }
-
-    public User findById(Long id) {
-        Optional<User> obj = repository.findById(id);
-
-        return obj.get();
-    }
-
-    public User findByEmail(String email) {
+    public User LoginAuthentication(String email, String password) {
         Optional<User> obj = repository.findByEmail(email);
 
-        return obj.get();
-    }
-
-    public User insert(User obj) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
-        User newUser = repository.save(obj);
 
-        newUser.setPassword("");
+        boolean isPassword = passwordEncoder.matches(password, obj.get().getPassword());
 
-        return newUser;
+        if(!isPassword) {
+            return null;
+        }
+
+        return obj.get();
     }
 
 }
